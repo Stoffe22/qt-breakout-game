@@ -1,8 +1,6 @@
 #ifndef PADDLE_H
 #define PADDLE_H
 
-#include <QGraphicsItem>
-#include <QGraphicsRectItem>
 #include <QWidget>
 
 class Paddle : public QWidget

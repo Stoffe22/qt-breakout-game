@@ -20,7 +20,7 @@ set(PROJECT_SOURCES
         widget.h
         widget.ui
         paddle.h paddle.cpp
-        window.h window.cpp
+        breakout.h breakout.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

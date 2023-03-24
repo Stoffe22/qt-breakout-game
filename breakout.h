@@ -1,16 +1,16 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef BREAKOUT_H
+#define BREAKOUT_H
 
 #include "paddle.h"
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-class Window : public QWidget
+class Breakout : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Window(QWidget *parent = nullptr);
+    explicit Breakout(QWidget *parent = nullptr);
 
 protected:
     void keyPressEvent(QKeyEvent* e) override;
@@ -28,4 +28,4 @@ signals:
 
 };
 
-#endif // WINDOW_H
+#endif // BREAKOUT_H

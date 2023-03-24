@@ -1,6 +1,6 @@
-#include "window.h"
+#include "breakout.h"
 
-Window::Window(QWidget *parent)
+Breakout::Breakout(QWidget *parent)
     : QWidget{parent},
       scene(new QGraphicsScene(this)),
       view(new QGraphicsView(scene, this)),
@@ -11,13 +11,13 @@ Window::Window(QWidget *parent)
     timerId = startTimer(10);
 }
 
-void Window::keyPressEvent(QKeyEvent* e)
+void Breakout::keyPressEvent(QKeyEvent* e)
 {
 
 }
 
-void Window::timerEvent(QTimerEvent* e)
+void Breakout::timerEvent(QTimerEvent* e)
 {
-
+    //paddle->getRect().moveTo(paddle->Get)
     scene->update();
 }
