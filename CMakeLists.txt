@@ -21,6 +21,8 @@ set(PROJECT_SOURCES
         widget.ui
         paddle.h paddle.cpp
         breakout.h breakout.cpp
+        direction.h
+        ball.h ball.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

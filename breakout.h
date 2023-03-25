@@ -2,9 +2,13 @@
 #define BREAKOUT_H
 
 #include "paddle.h"
+#include "ball.h"
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+
+static const int B_WIDTH = 1000;
+static const int B_HEIGHT = 1000;
 
 class Breakout : public QWidget
 {
@@ -17,13 +21,14 @@ protected:
     void timerEvent(QTimerEvent* e) override;
 
 private:
-    static const int B_WIDTH = 500;
-    static const int B_HEIGHT = 500;
     int timerId;
+    bool keyPressed;
 
     QGraphicsScene* scene;
     QGraphicsView* view;
     Paddle* paddle;
+    Ball* ball;
+    void updateScene();
 signals:
 
 };
