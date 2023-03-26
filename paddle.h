@@ -15,17 +15,18 @@ class Paddle : public QWidget
 public:
     explicit Paddle(QWidget *parent = nullptr, int x0 = 0, int y0 = 0);
 
-    QRect& getRect() { return rect; }
-    void setDirection(Direction d) {dir = d;}
+    const QImage& getImage() const{ return paddle_img; }
+    QPoint getPosition() { return QPoint(x, y); }
+    void setDirection(Direction d) { dir = d; }
     void move();
 
 private:
+    QImage paddle_img;
     int x;
     int y;
     int x_init;
     int y_init;
     Direction dir;
-    QRect rect;
 
 signals:
 

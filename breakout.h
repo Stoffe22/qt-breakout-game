@@ -19,16 +19,16 @@ public:
 protected:
     void keyPressEvent(QKeyEvent* e) override;
     void timerEvent(QTimerEvent* e) override;
+    void paintEvent(QPaintEvent* e) override;
 
 private:
     int timerId;
     bool keyPressed;
 
-    QGraphicsScene* scene;
-    QGraphicsView* view;
     Paddle* paddle;
     Ball* ball;
-    void updateScene();
+
+
 signals:
 
 };

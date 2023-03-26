@@ -3,19 +3,15 @@
 
 Breakout::Breakout(QWidget *parent)
     : QWidget{parent},
-      scene(new QGraphicsScene{this}),
-      view(new QGraphicsView{scene, this}),
       paddle(new Paddle{this, B_WIDTH, B_HEIGHT}),
       ball(new Ball{this, B_WIDTH/2, B_HEIGHT/2})
 {
-    view->setFixedSize(B_WIDTH, B_HEIGHT);
+    setFixedSize(B_WIDTH, B_HEIGHT);
     setFocusPolicy(Qt::StrongFocus);
-    setFocus();
-    scene->addRect(paddle->getRect(), QPen(Qt::white), QBrush(Qt::white));
-    scene->addItem(ball->getBall());
-    scene->setSceneRect(0, 0, B_WIDTH, B_HEIGHT);
+    setFocus();    
     timerId = startTimer(100);
 }
+
 
 void Breakout::keyPressEvent(QKeyEvent* e)
 {
@@ -34,20 +30,14 @@ void Breakout::keyPressEvent(QKeyEvent* e)
     keyPressed = true;
 }
 
-void Breakout::timerEvent(QTimerEvent* e)
+void Breakout::paintEvent(QPaintEvent* e)
 {
-    if (keyPressed)
-        paddle->move();
-    //ball->move();
-    updateScene();
-    keyPressed = false;
-
+    QPainter painter(this);
+    painter.drawImage(paddle->getPosition(), paddle->getImage());
 }
 
-void Breakout::updateScene()
+void Breakout::timerEvent(QTimerEvent* e)
 {
-    scene->setSceneRect(paddle->getRect());
-    //scene->addItem(ball->getBall());
-    scene->update();
+
 }
 

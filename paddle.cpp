@@ -1,9 +1,14 @@
 #include "paddle.h"
 
 Paddle::Paddle(QWidget *parent, int x0, int y0)
-    : QWidget(parent), x_init{x0}, y_init{y0}
+    : QWidget(parent), x_init(x0), y_init(y0)
 {
-    rect = QRect{x_init - P_WIDTH, y_init, P_WIDTH, P_HEIGHT};
+    QRect rect(x_init - P_WIDTH*2, y_init - P_HEIGHT*2, P_WIDTH, P_HEIGHT);
+    x = rect.topLeft().x();
+    y = rect.topLeft().y();
+    QPixmap pixmap(rect.size());
+    pixmap.fill(Qt::white);
+    paddle_img = pixmap.toImage();
 }
 
 void Paddle::move()
@@ -12,7 +17,7 @@ void Paddle::move()
         return;
 
     int dx = dir == Direction::Left ? MOVE_LEN : -MOVE_LEN;
-    rect.translate(dx, 0);
+    x += dx;
 }
 
 
