@@ -8,7 +8,7 @@ Breakout::Breakout(QWidget *parent)
 {
     setFixedSize(B_WIDTH, B_HEIGHT);
     setFocusPolicy(Qt::StrongFocus);
-    setFocus();    
+    setFocus();
     timerId = startTimer(100);
 }
 
@@ -38,6 +38,10 @@ void Breakout::paintEvent(QPaintEvent* e)
 
 void Breakout::timerEvent(QTimerEvent* e)
 {
+    if (keyPressed)
+        paddle->move();
 
+    update();
+    keyPressed = false;
 }
 

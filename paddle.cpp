@@ -16,7 +16,7 @@ void Paddle::move()
     if (dir == Direction::Invalid)
         return;
 
-    int dx = dir == Direction::Left ? MOVE_LEN : -MOVE_LEN;
+    int dx = dir == Direction::Left ? -MOVE_LEN : MOVE_LEN;
     x += dx;
 }
 
