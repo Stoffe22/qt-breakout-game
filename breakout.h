@@ -9,6 +9,8 @@
 
 static const int B_WIDTH = 1000;
 static const int B_HEIGHT = 1000;
+static const int BALL_DIAMETER = 20;
+static const int DELAY= 10;
 
 class Breakout : public QWidget
 {
@@ -22,9 +24,10 @@ protected:
     void paintEvent(QPaintEvent* e) override;
 
 private:
+    void checkCollision();
+
     int timerId;
     bool keyPressed;
-
     Paddle* paddle;
     Ball* ball;
 

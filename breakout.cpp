@@ -4,14 +4,29 @@
 Breakout::Breakout(QWidget *parent)
     : QWidget{parent},
       paddle(new Paddle{this, B_WIDTH, B_HEIGHT}),
-      ball(new Ball{this, B_WIDTH/2, B_HEIGHT/2})
+      ball(new Ball{this, BALL_DIAMETER, B_WIDTH/2, B_HEIGHT/2})
 {
     setFixedSize(B_WIDTH, B_HEIGHT);
     setFocusPolicy(Qt::StrongFocus);
     setFocus();
-    timerId = startTimer(100);
+    timerId = startTimer(DELAY);
 }
 
+void Breakout::checkCollision()
+{
+    QPoint pos = ball->getPosition();
+    int x = pos.x();
+    int y = pos.y();
+    qDebug() << "x: " << x << "y: " << y;
+    if (x == 0)
+        ball->bounce(Bounce::RIGHT);
+    else if (x == B_WIDTH - BALL_DIAMETER)
+        ball->bounce(Bounce::LEFT);
+    else if (y == 0)
+        ball->bounce(Bounce::DOWN);
+    else
+        ball->bounce(Bounce::NONE);
+}
 
 void Breakout::keyPressEvent(QKeyEvent* e)
 {
@@ -34,12 +49,15 @@ void Breakout::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
     painter.drawImage(paddle->getPosition(), paddle->getImage());
+    painter.drawImage(ball->getPosition(), ball->getImage());
 }
 
 void Breakout::timerEvent(QTimerEvent* e)
 {
+    checkCollision();
     if (keyPressed)
         paddle->move();
+    ball->move();
 
     update();
     keyPressed = false;
