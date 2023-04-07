@@ -17,6 +17,8 @@ public:
     void bounce(Bounce b) { bounceDir = b; }
     int getBottom() { return y + d;}
     int getTop() { return y; }
+    int getLeft() { return x; }
+    int getRight() { return x + d; }
 
 private:
     int d;

@@ -24,7 +24,6 @@ public:
     void move();
 
 private:
-    QRect rect;
     QImage paddle_img;
     int x;
     int y;

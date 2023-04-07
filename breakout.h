@@ -3,14 +3,17 @@
 
 #include "paddle.h"
 #include "ball.h"
+#include "brick.h"
 #include <QWidget>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include <QGridLayout>
+
 
 static const int B_WIDTH = 500;
 static const int B_HEIGHT = 500;
+static const int BRICKS_COLUMNS = 10;
+static const int BRICKS_ROWS = 5;
 static const int BALL_DIAMETER = 20;
-static const int DELAY= 20;
+static const int DELAY= 10;
 
 class Breakout : public QWidget
 {
@@ -29,9 +32,11 @@ private:
 
     int timerId;
     bool keyPressed;
-    Paddle* paddle;
-    Ball* ball;
 
+    QGridLayout* grid;
+    std::unique_ptr<Paddle> paddle;
+    std::unique_ptr<Ball> ball;
+    std::vector<std::unique_ptr<Brick>> bricks;
 signals:
 
 };

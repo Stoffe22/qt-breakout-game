@@ -3,7 +3,7 @@
 Paddle::Paddle(QWidget *parent, int x0, int y0)
     : QWidget(parent), x_init(x0), y_init(y0)
 {
-    rect = QRect(x_init - P_WIDTH*2, y_init - P_HEIGHT*2, P_WIDTH, P_HEIGHT);
+    QRect rect(x_init - P_WIDTH*2, y_init - P_HEIGHT*2, P_WIDTH, P_HEIGHT);
     x = rect.topLeft().x();
     y = rect.topLeft().y();
     QPixmap pixmap(rect.size());
