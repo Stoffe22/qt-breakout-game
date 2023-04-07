@@ -15,13 +15,17 @@ public:
     QPoint getPosition() { return QPoint(x, y); }
     void move();
     void bounce(Bounce b) { bounceDir = b; }
+    int getBottom() { return y + d;}
+    int getTop() { return y; }
 
 private:
+    int d;
     QImage ball_img;
     int x;
     int y;
     Bounce bounceDir;
     Velocity vel;
+
 
 signals:
 

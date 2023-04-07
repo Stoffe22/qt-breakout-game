@@ -1,13 +1,13 @@
 #include "ball.h"
 
 Ball::Ball(QWidget *parent, int diameter, int x0, int y0)
-    : QWidget{parent}, x{x0}, y{y0}
+    : QWidget{parent}, d{diameter}, x{x0}, y{y0}
 {
     QPixmap ball_pm;
     ball_pm.load("/Users/jonason/Documents/code/projects/qt/snake/dot.png");
     ball_pm = ball_pm.scaled(diameter, diameter, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
     ball_img = ball_pm.toImage();
-    vel.setVelocity(1, -1);
+    vel.setVelocity(0, 1);
 
 }
 

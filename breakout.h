@@ -7,10 +7,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-static const int B_WIDTH = 1000;
-static const int B_HEIGHT = 1000;
+static const int B_WIDTH = 500;
+static const int B_HEIGHT = 500;
 static const int BALL_DIAMETER = 20;
-static const int DELAY= 10;
+static const int DELAY= 20;
 
 class Breakout : public QWidget
 {
@@ -25,12 +25,12 @@ protected:
 
 private:
     void checkCollision();
+    bool paddleCollision();
 
     int timerId;
     bool keyPressed;
     Paddle* paddle;
     Ball* ball;
-
 
 signals:
 

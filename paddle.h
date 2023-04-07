@@ -18,9 +18,13 @@ public:
     const QImage& getImage() const{ return paddle_img; }
     QPoint getPosition() { return QPoint(x, y); }
     void setDirection(Direction d) { dir = d; }
+    int getLeft() { return x; }
+    int getRight() { return x + P_WIDTH; }
+    int getY() { return y; }
     void move();
 
 private:
+    QRect rect;
     QImage paddle_img;
     int x;
     int y;

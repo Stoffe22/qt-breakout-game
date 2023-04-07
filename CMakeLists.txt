@@ -24,6 +24,7 @@ set(PROJECT_SOURCES
         ball.h ball.cpp
         bounce.h
         velocity.h velocity.cpp
+        brick.h brick.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
