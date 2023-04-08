@@ -1,9 +1,9 @@
 #include "paddle.h"
 
-Paddle::Paddle(QWidget *parent, int x0, int y0)
-    : QWidget(parent), x_init(x0), y_init(y0)
+Paddle::Paddle(QWidget *parent, int width, int height, int x0, int y0)
+    : QWidget(parent), w(width), h(height), x_init(x0), y_init(y0)
 {
-    QRect rect(x_init - P_WIDTH*2, y_init - P_HEIGHT*2, P_WIDTH, P_HEIGHT);
+    QRect rect(x_init - w*2, y_init - h*2, w, h);
     x = rect.topLeft().x();
     y = rect.topLeft().y();
     QPixmap pixmap(rect.size());

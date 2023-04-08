@@ -6,7 +6,7 @@
 Breakout::Breakout(QWidget *parent)
     : QWidget{parent},
       grid(new QGridLayout()),
-      paddle(new Paddle{this, B_WIDTH/2 + 30 , B_HEIGHT}),
+      paddle(new Paddle{this, P_WIDTH, P_HEIGHT, B_WIDTH/2, B_HEIGHT}),
       ball(new Ball{this, BALL_DIAMETER, B_WIDTH/2, B_HEIGHT/2})
 {
     setFixedSize(B_WIDTH, B_HEIGHT);
@@ -16,16 +16,16 @@ Breakout::Breakout(QWidget *parent)
     int xOffset, yOffset = 0;
     for (int row = 0; row < BRICKS_ROWS; row++)
     {
-        xOffset = 0;
-        yOffset += 5;
+        xOffset = BRICK_OFFSET;
+        yOffset += BRICK_OFFSET;
         for (int col = 0; col < BRICKS_COLUMNS; col++)
         {
             int x = col * BRICK_WIDTH + xOffset;
             int y = row * BRICK_HEIGHT + yOffset;
-            std::unique_ptr<Brick> b = std::make_unique<Brick>(x, y);
+            std::unique_ptr<Brick> b = std::make_unique<Brick>(BRICK_WIDTH, BRICK_HEIGHT, x, y);
             bricks.emplace_back(std::move(b));
             grid->addWidget(b.get(), row, col);
-            xOffset += 5;
+            xOffset += BRICK_OFFSET;
         }
     }
 
@@ -34,33 +34,66 @@ Breakout::Breakout(QWidget *parent)
 
 void Breakout::checkCollision()
 {
-    QPoint pos = ball->getPosition();
-    int x = pos.x();
-    int y = pos.y();
+    if (checkWallCollision())
+        return;
+    if (checkPaddleCollision())
+        return;
+    if (checkBrickCollision())
+        return;
 
-    if (x == 0)
-        ball->bounce(Bounce::RIGHT);
-    else if (x == B_WIDTH - BALL_DIAMETER)
-        ball->bounce(Bounce::LEFT);
-    else if (y == 0)
-        ball->bounce(Bounce::DOWN);
-    else if (paddleCollision())
-        ball->bounce(Bounce::UP);
-    else
-        ball->bounce(Bounce::NONE);
+    ball->bounce(Bounce::NONE);
 }
 
-bool Breakout::paddleCollision()
+bool Breakout::checkWallCollision()
 {
-//    qDebug() << "ball bottom:" << ball->getBottom();
-//    qDebug() << "paddle top" << paddle->getY();
-//    qDebug() << "ball left: " << ball->getLeft();
-//    qDebug() << "paddle left: " << paddle->getLeft();
-//    qDebug() << "paddle right: " << paddle->getRight();
+    if (ball->getLeft() <= 0)
+    {
+        ball->bounce(Bounce::RIGHT);
+        return true;
+    }
+    else if (ball->getRight() >= B_WIDTH)
+    {
+        ball->bounce(Bounce::LEFT);
+        return true;
+    }
+    else if (ball->getTop() <= 0)
+    {
+        ball->bounce(Bounce::DOWN);
+        return true;
+    }
+    return false;
+}
+
+bool Breakout::checkBrickCollision()
+{
+    int bottom, top, left, right;
+    for (auto it = bricks.begin(); it != bricks.end(); it++)
+    {
+       if (ball->getTop() == (*it)->getBottom())
+       {
+           ball->bounce(Bounce::DOWN);
+           return true;
+       }
+    }
+    return false;
+}
+
+
+
+bool Breakout::checkPaddleCollision()
+{
+    qDebug() << "ball bottom:" << ball->getBottom();
+    qDebug() << "paddle top" << paddle->getY();
+    qDebug() << "ball left: " << ball->getLeft();
+    qDebug() << "paddle left: " << paddle->getLeft();
+    qDebug() << "paddle right: " << paddle->getRight();
     if (ball->getBottom() == paddle->getY() &&
         ball->getRight() > paddle->getLeft() &&
         ball->getLeft() < paddle->getRight())
+    {
+        ball->bounce(Bounce::UP);
         return true;
+    }
     return false;
 }
 

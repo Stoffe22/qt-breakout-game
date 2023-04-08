@@ -10,10 +10,15 @@
 
 static const int B_WIDTH = 500;
 static const int B_HEIGHT = 500;
-static const int BRICKS_COLUMNS = 10;
+static const int P_WIDTH = 50;
+static const int P_HEIGHT = 20;
+static const int BRICK_WIDTH = 50;
+static const int BRICK_HEIGHT = 20;
+static const int BRICK_OFFSET = 5;
+static const int BRICKS_COLUMNS = B_WIDTH / (BRICK_WIDTH + BRICK_OFFSET);
 static const int BRICKS_ROWS = 5;
 static const int BALL_DIAMETER = 20;
-static const int DELAY= 10;
+static const int DELAY= 30;
 
 class Breakout : public QWidget
 {
@@ -28,7 +33,9 @@ protected:
 
 private:
     void checkCollision();
-    bool paddleCollision();
+    bool checkPaddleCollision();
+    bool checkBrickCollision();
+    bool checkWallCollision();
 
     int timerId;
     bool keyPressed;

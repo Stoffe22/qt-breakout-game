@@ -28,9 +28,6 @@ private:
     Bounce bounceDir;
     Velocity vel;
 
-
-signals:
-
 };
 
 #endif // BALL_H
