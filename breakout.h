@@ -37,8 +37,10 @@ private:
     bool checkBrickCollision();
     bool checkWallCollision();
     void gameOverMessage(QPainter& qp);
+    void gameWonMessage(QPainter& qp);
 
     bool gameOver;
+    bool gameWon;
     int timerId;
     bool keyPressed;
 

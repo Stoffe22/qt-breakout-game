@@ -69,6 +69,7 @@ bool Breakout::checkWallCollision()
     return false;
 }
 
+// NOTE: This function doesn't work as expected, sometimes the ball goes throught the bricks
 bool Breakout::checkBrickCollision()
 {
     int bottom, top, left, right;
@@ -106,11 +107,6 @@ bool Breakout::checkBrickCollision()
 
 bool Breakout::checkPaddleCollision()
 {
-//    qDebug() << "ball bottom:" << ball->getBottom();
-//    qDebug() << "paddle top" << paddle->getY();
-//    qDebug() << "ball left: " << ball->getLeft();
-//    qDebug() << "paddle left: " << paddle->getLeft();
-//    qDebug() << "paddle right: " << paddle->getRight();
     if (ball->getBottom() == paddle->getY() &&
         ball->getRight() > paddle->getLeft() &&
         ball->getLeft() < paddle->getRight())
@@ -140,6 +136,7 @@ void Breakout::keyPressEvent(QKeyEvent* e)
 
 void Breakout::paintEvent(QPaintEvent* e)
 {
+    qDebug() << bricks.size();
     QPainter painter(this);
     if (!gameOver)
     {
@@ -153,8 +150,14 @@ void Breakout::paintEvent(QPaintEvent* e)
     else
     {
         gameOverMessage(painter);
+        return;
     }
 
+    if (bricks.size() == 0)
+    {
+        gameWonMessage(painter);
+        killTimer(timerId);
+    }
 
 }
 
@@ -168,6 +171,21 @@ void Breakout::timerEvent(QTimerEvent* e)
 
     update();
     keyPressed = false;
+}
+
+void Breakout::gameWonMessage(QPainter& qp)
+{
+    QString message("Game won");
+    QFont font("Courier", 15, QFont::DemiBold);
+    QFontMetrics fm(font);
+    int textWidth = fm.horizontalAdvance(message);
+
+    qp.setFont(font);
+    int w = width();
+    int h = height();
+
+    qp.translate(QPoint(w/2, h/2));
+    qp.drawText(-textWidth/2, 0 , message);
 }
 
 void Breakout::gameOverMessage(QPainter& qp)
@@ -187,4 +205,6 @@ void Breakout::gameOverMessage(QPainter& qp)
     qp.translate(QPoint(w/2, h/2));
     qp.drawText(-textWidth/2, 0 , message);
 }
+
+
 
