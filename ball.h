@@ -19,6 +19,7 @@ public:
     int getTop() { return y; }
     int getLeft() { return x; }
     int getRight() { return x + d; }
+    int getCenterY() { return y + d/2; }
 
 private:
     int d;

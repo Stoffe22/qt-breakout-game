@@ -18,7 +18,7 @@ static const int BRICK_OFFSET = 5;
 static const int BRICKS_COLUMNS = B_WIDTH / (BRICK_WIDTH + BRICK_OFFSET);
 static const int BRICKS_ROWS = 5;
 static const int BALL_DIAMETER = 20;
-static const int DELAY= 30;
+static const int DELAY= 5;
 
 class Breakout : public QWidget
 {
@@ -36,7 +36,9 @@ private:
     bool checkPaddleCollision();
     bool checkBrickCollision();
     bool checkWallCollision();
+    void gameOverMessage(QPainter& qp);
 
+    bool gameOver;
     int timerId;
     bool keyPressed;
 

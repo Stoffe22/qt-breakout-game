@@ -28,7 +28,7 @@ Breakout::Breakout(QWidget *parent)
             xOffset += BRICK_OFFSET;
         }
     }
-
+    gameOver = false;
     timerId = startTimer(DELAY);
 }
 
@@ -40,6 +40,11 @@ void Breakout::checkCollision()
         return;
     if (checkBrickCollision())
         return;
+    if (ball->getBottom() >= B_HEIGHT)
+    {
+        gameOver = true;
+        return;
+    }
 
     ball->bounce(Bounce::NONE);
 }
@@ -69,9 +74,28 @@ bool Breakout::checkBrickCollision()
     int bottom, top, left, right;
     for (auto it = bricks.begin(); it != bricks.end(); it++)
     {
-       if (ball->getTop() == (*it)->getBottom())
+       if ((ball->getTop() == (*it)->getBottom()) && (ball->getLeft() >= (*it)->getLeft()) && (ball->getRight() <= (*it)->getRight()))
        {
            ball->bounce(Bounce::DOWN);
+           bricks.erase(it);
+           return true;
+       }
+       else if ((ball->getBottom() == (*it)->getTop()) && (ball->getLeft() >= (*it)->getLeft()) && (ball->getRight() <= (*it)->getRight()))
+       {
+           ball->bounce(Bounce::UP);
+           bricks.erase(it);
+           return true;
+       }
+       else if ((ball->getLeft() == (*it)->getRight()) && (ball->getCenterY() <= (*it)->getBottom()) && (ball->getCenterY() >= (*it)->getTop()))
+       {
+           ball->bounce(Bounce::RIGHT);
+           bricks.erase(it);
+           return true;
+       }
+       else if ((ball->getRight() == (*it)->getLeft()) && (ball->getCenterY() <= (*it)->getBottom()) && (ball->getCenterY() >= (*it)->getTop()))
+       {
+           ball->bounce(Bounce::LEFT);
+           bricks.erase(it);
            return true;
        }
     }
@@ -82,11 +106,11 @@ bool Breakout::checkBrickCollision()
 
 bool Breakout::checkPaddleCollision()
 {
-    qDebug() << "ball bottom:" << ball->getBottom();
-    qDebug() << "paddle top" << paddle->getY();
-    qDebug() << "ball left: " << ball->getLeft();
-    qDebug() << "paddle left: " << paddle->getLeft();
-    qDebug() << "paddle right: " << paddle->getRight();
+//    qDebug() << "ball bottom:" << ball->getBottom();
+//    qDebug() << "paddle top" << paddle->getY();
+//    qDebug() << "ball left: " << ball->getLeft();
+//    qDebug() << "paddle left: " << paddle->getLeft();
+//    qDebug() << "paddle right: " << paddle->getRight();
     if (ball->getBottom() == paddle->getY() &&
         ball->getRight() > paddle->getLeft() &&
         ball->getLeft() < paddle->getRight())
@@ -117,22 +141,50 @@ void Breakout::keyPressEvent(QKeyEvent* e)
 void Breakout::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
-    painter.drawImage(paddle->getPosition(), paddle->getImage());
-    painter.drawImage(ball->getPosition(), ball->getImage());
-    for (const auto& brick : bricks)
+    if (!gameOver)
     {
-        painter.drawImage(brick->getPosition(), brick->getImage());
+        painter.drawImage(paddle->getPosition(), paddle->getImage());
+        painter.drawImage(ball->getPosition(), ball->getImage());
+        for (const auto& brick : bricks)
+        {
+            painter.drawImage(brick->getPosition(), brick->getImage());
+        }
     }
+    else
+    {
+        gameOverMessage(painter);
+    }
+
+
 }
 
 void Breakout::timerEvent(QTimerEvent* e)
 {
     checkCollision();
+
     if (keyPressed)
         paddle->move();
     ball->move();
 
     update();
     keyPressed = false;
+}
+
+void Breakout::gameOverMessage(QPainter& qp)
+{
+    if (!gameOver)
+        return;
+
+    QString message("Game Over");
+    QFont font("Courier", 15, QFont::DemiBold);
+    QFontMetrics fm(font);
+    int textWidth = fm.horizontalAdvance(message);
+
+    qp.setFont(font);
+    int w = width();
+    int h = height();
+
+    qp.translate(QPoint(w/2, h/2));
+    qp.drawText(-textWidth/2, 0 , message);
 }
 

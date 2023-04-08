@@ -5,7 +5,7 @@
 #include <QWidget>
 
 
-static const int MOVE_LEN = 10;
+static const int MOVE_LEN = 30;
 
 class Paddle : public QWidget
 {
