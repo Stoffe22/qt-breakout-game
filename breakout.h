@@ -36,8 +36,7 @@ private:
     bool checkPaddleCollision();
     bool checkBrickCollision();
     bool checkWallCollision();
-    void gameOverMessage(QPainter& qp);
-    void gameWonMessage(QPainter& qp);
+    void printMessage(QPainter& qp, QString&& message);
 
     bool gameOver;
     bool gameWon;

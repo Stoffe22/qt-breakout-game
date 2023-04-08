@@ -136,7 +136,6 @@ void Breakout::keyPressEvent(QKeyEvent* e)
 
 void Breakout::paintEvent(QPaintEvent* e)
 {
-    qDebug() << bricks.size();
     QPainter painter(this);
     if (!gameOver)
     {
@@ -149,16 +148,15 @@ void Breakout::paintEvent(QPaintEvent* e)
     }
     else
     {
-        gameOverMessage(painter);
+        printMessage(painter, "Game Over");
         return;
     }
 
     if (bricks.size() == 0)
     {
-        gameWonMessage(painter);
+        printMessage(painter, "Game Won");
         killTimer(timerId);
     }
-
 }
 
 void Breakout::timerEvent(QTimerEvent* e)
@@ -173,9 +171,8 @@ void Breakout::timerEvent(QTimerEvent* e)
     keyPressed = false;
 }
 
-void Breakout::gameWonMessage(QPainter& qp)
+void Breakout::printMessage(QPainter& qp, QString&& message)
 {
-    QString message("Game won");
     QFont font("Courier", 15, QFont::DemiBold);
     QFontMetrics fm(font);
     int textWidth = fm.horizontalAdvance(message);
@@ -188,23 +185,6 @@ void Breakout::gameWonMessage(QPainter& qp)
     qp.drawText(-textWidth/2, 0 , message);
 }
 
-void Breakout::gameOverMessage(QPainter& qp)
-{
-    if (!gameOver)
-        return;
-
-    QString message("Game Over");
-    QFont font("Courier", 15, QFont::DemiBold);
-    QFontMetrics fm(font);
-    int textWidth = fm.horizontalAdvance(message);
-
-    qp.setFont(font);
-    int w = width();
-    int h = height();
-
-    qp.translate(QPoint(w/2, h/2));
-    qp.drawText(-textWidth/2, 0 , message);
-}
 
 
 
